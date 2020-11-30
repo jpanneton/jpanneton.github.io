@@ -181,14 +181,23 @@
 
 {% if site.tag_nav_enabled %}
   <ul class="header-tags">
-    {% assign tags = site.tags | sort %}
-    {% for tag in tags %}
+    {% assign my_tags = site.collections | where: "label", "my_tags" | first %}
+    {% assign sorted_tags = site.tags | sort %}
+
+    {% for tag in sorted_tags %}
       {% if forloop.index > 10 %}
         <li>...</li>
         <li><a href="/tags">Show all</a></li>
         {% break %}
       {% endif %}
-        <li><a href="{{ 'tag/' | relative_url }}{{ tag[0] }}">{{ tag[0] | capitalize }}</a></li>
+
+      {% assign tag_slug = tag | first %}
+      {% for my_tag in my_tags.docs %}
+        {% if tag_slug == my_tag.slug %}
+          {% assign tag_name = my_tag.name %}
+        {% endif %}
+      {% endfor %}
+        <li><a href="{{ 'tag/' | relative_url }}{{ tag_slug }}">{{ tag_name | capitalize }}</a></li>
     {% endfor %}
   </ul>
 {% endif %}
