@@ -1,0 +1,11 @@
+---
+layout: default
+---
+
+<div class="about {% if site.scrollappear_enabled %}scrollappear{% endif %}">
+  <img src="{% asset 'about.jpg' @path %}" alt="Jérémi Panneton photo" />
+  <h1>About me</h1>
+  <p>
+    {{ content }}
+  </p>
+</div>
