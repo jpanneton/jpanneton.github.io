@@ -11,3 +11,17 @@ C++ was the first language I've really fallen in love with back in high school. 
 Apart from that, I'm a sound maniac. I like to concentrate on every single detail when I'm listening to music and my speakers are objects that I value a lot. I was a music producer with a promising talent 10 years ago, but my creative matter slowly became shadowed by a more technical side. So now, I'm only releasing occasionally.
 
 On a more personal note, I have traveled in most countries of central Europe and in Scandinavia. I have also lived in the South of France for half a year. To keep my skinny arms in shape, I practice indoor climbing and bouldering three times a week. I love good beers.
+
+P.S. This picture is a few years old. I have a mustache now.
+
+Contact: [contact@jpanneton.dev](mailto:contact@jpanneton.dev)
+
+Donations: [PayPal](https://www.paypal.com/donate/?business=GSXLZSTYDSXUW&no_recurring=0&currency_code=CAD)
+
+## My studio
+
+- APS Klasik nearfield monitors
+- Adam A77X midfield monitors
+- Lewitt LCT 440 Pure microphone
+- Audient iD44 audio interface
+- Focal Clear Pro headphones

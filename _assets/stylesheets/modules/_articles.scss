@@ -171,6 +171,11 @@
   blockquote p {
     margin-bottom: 0;
   }
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   img.emoji {
     display: inline-block;
     margin-top: -4px;
@@ -203,6 +208,37 @@
       fill: $gray-dark;
     }
   }
+}
+
+// Images
+// =============================================================================
+
+.image-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-group div {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.image-group figure {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.image-group img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.image-separator {
+  max-width: 2em;
+  text-align: center;
 }
 
 // Responsive
