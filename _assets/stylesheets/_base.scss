@@ -172,6 +172,24 @@ blockquote cite:before {
   content: "\2014 \2009";
 }
 
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 2px solid $gray-dark;
+}
+
+th {
+  color: $gray-darker;
+  background-color: $gray-lighter;
+  border: 2px solid $gray-dark;
+}
+
+td {
+  border: 1px solid $gray-dark;
+}
+
 // Other
 // =============================================================================
 
