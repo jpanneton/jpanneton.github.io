@@ -182,11 +182,6 @@
     margin-bottom: 0;
     vertical-align: middle;
   }
-  audio {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 .article-comments {
@@ -259,5 +254,9 @@
   .article-list-tags {
     display: block;
     margin-top: -7px;
+  }
+  .image-group figure {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }

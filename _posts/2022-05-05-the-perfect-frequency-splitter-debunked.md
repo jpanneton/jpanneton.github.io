@@ -31,7 +31,10 @@ The problem with this approach is that crossovers don't have a flat amplitude re
 
   In the physical world, dB is most often used to express sound pressure level (SPL). This is the unit used by noise level charts (e.g. "a lawnmower is 90 dB" type of chart). SPL can be calculated using the following formula, where $p$ is a sound pressure in pascals (Pa) and $p_0$ the reference sound pressure (usual $20\mu$ Pa, which is the lowest hearing threshold of a young and healthy ear):
 
-  $$dB(SPL) = 10 * log_{10}\left(\frac{p^2}{p_0^2}\right) = 20 * log_{10}\left(\frac{p}{p_0}\right)$$
+  $$\begin{align}
+  dB(SPL) = 10 * log_{10}\left(\frac{p^2}{p_0^2}\right) \\
+          = 20 * log_{10}\left(\frac{p}{p_0}\right)
+  \end{align}$$
 
   Using this formula, we can find that a sound which is twice the amplitude of the reference will yield a +6 dB SPL increment (keep that in mind for later):
 
@@ -200,7 +203,7 @@ However, since the phase of the dry signal is no longer in sync with the filtere
   </div>
   <div>
     <figure>
-    {% include image.html path="posts/1-frequency-splitter/10-phase-cancel-error-linear.svg" path-detail="posts/1-frequency-splitter/10-phase-cancel-error-linear.svg" alt="Linear phase cancellation error" %}
+      {% include image.html path="posts/1-frequency-splitter/10-phase-cancel-error-linear.svg" path-detail="posts/1-frequency-splitter/10-phase-cancel-error-linear.svg" alt="Linear phase cancellation error" %}
       <figcaption>Expected (linear phase)</figcaption>
     </figure>
   </div>
