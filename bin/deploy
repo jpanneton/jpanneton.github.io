@@ -16,7 +16,7 @@ git checkout -b gh-pages
 
 # Build site.
 yarn install --modules-folder ./_assets/yarn
-bundle exec jekyll build
+bundle.cmd exec jekyll build
 
 # Delete and move files.
 find . -maxdepth 1 ! -name '_site' ! -name '.git' ! -name '.gitignore' -exec rm -rf {} \;
