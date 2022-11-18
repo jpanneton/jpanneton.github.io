@@ -273,11 +273,11 @@ To make the phase cancellation trick work as expected, we would need an EQ that 
 
 First, it causes pre-ringing, which is some sort of backward echo that softens the transients. Since this is not the point of this post, I won't delve into much more details (Google is your friend), but keep in mind that more aggressive filters (high slope, high Q, high latency) in the lower end of the spectrum tend to cause more pre-ringing. However, pre-ringing is usually heard when boosting (e.g. bell shape) and less when cutting (crossover). So for our use case, the impact of pre-ringing is usually minimal.
 
-Second, it may cause some *ripples* when used in a crossover. Ripples are small fluctuations in the passband, and this is an area where Butterworth filters particularly shine. The main characteristic of this filter type is that it has a flat passband, meaning it doesn't have any ripples. The downside is that it can't have a very aggressive slope, unlike some other filter types (such as Chebyshev). In the case of linear phase filters, they don't share the same characteristics as Butterworth filters (or Linkwitz-Riley), which makes them not ideal for crossover design where a flat amplitude response is paramount.
+Second, it may introduce some low-frequency imprecisions when used in a low enough crossover. FabFilter Pro-Q lets you choose different processing resolutions, which result in different linear phase filter delays. The greater the delay, the better the response in the low frequencies, at the cost of more pre-ringing. The lesser the delay, the worst the response in the low frequencies, at the benefit of less pre-ringing. Steeper filters will also result in greater imprecisions. To compensate, longer delays must usually be used when low-frequency precision is paramount.
 
-Finally, it introduces a noticeable delay. This might be fine for the final mastering stages but is often not viable in a live context where MIDI input is involved (low latency). That's why it's usually never used for individual track processing.
+Finally, as you might have guessed, it introduces a noticeable delay. This might be fine for the final mastering stages but is often not viable in a live context where MIDI input is involved (low latency). That's why it's usually never used for individual track processing.
 
-So, the almost perfect frequency splitter should be implemented using the proposed phase cancellation technique, but with linear phase filters (to preserve phase). The phase cancellation trick will allow to cancel out pre-ringing as well as potential ripples, and the usage of linear phase filters will prevent the introduction of unwanted frequencies when canceling (as discussed above). In the end, the additional delay will be the only price to pay for such a splitter.
+So, the almost perfect frequency splitter should be implemented using the proposed phase cancellation technique, but with linear phase filters (to preserve phase). The phase cancellation trick will allow to cancel out pre-ringing as well as potential low-frequency imprecisions, and the usage of linear phase filters will prevent the introduction of unwanted frequencies when canceling (as discussed above). In the end, the additional delay will be the only price to pay for such a splitter.
 
 ## Conclusion
 
@@ -308,7 +308,8 @@ Here are the solutions you should avoid entirely:
     - \+ Flat phase response
     - \+ Simple
     - \+ No phase cancellation tricks
-    - \- May introduce pre-ringing and / or ripples (colored crossovers)
+    - \- May introduce pre-ringing (colored crossovers)
+    - \- May introduce low-frequency imprecisions (colored crossovers)
     - \- Cannot be implemented using most EQs
     - \- Higher latency
 3. [The "phase correct" frequency splitter](#the-phase-correct-frequency-splitter)
