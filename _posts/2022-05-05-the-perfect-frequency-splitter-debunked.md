@@ -217,7 +217,7 @@ In short, this means that phase-canceled bands will always contain some of the f
 
 This is of course a theoretical example with only two sine waves involved, but you can see how many unwanted frequencies might be introduced in the phase canceled band of Multiplier's "phase correct" frequency splitter. This is audible and measurable just by soloing the said band. Sure, you can reconstruct the original signal that way, but the band doesn't hold the expected information in isolation, which defeats the whole purpose of using a frequency splitter to process bands independently.
 
-Let's take a look at a white noise example. For the sake of the example, I have used Linkwitz-Riley filters (24 dB slope) to perform the filtering instead of single Butterworth filters (like in the original design). That way, expectations are more accurate, and the underlying issue is emphasized (two phase shifts instead of one).
+Let's take a look at a white noise example. For the sake of the example, I have used Linkwitz-Riley filters (24 dB slope) to perform the filtering instead of single Butterworth filters (like in the original design). That way, expectations are more accurate, and the underlying issue is emphasized (two phase shifts instead of one). The crossover frequency is 1000 Hz.
 
 <div class="image-group">
   <div>
@@ -263,9 +263,11 @@ Let's take a look at a white noise example. For the sake of the example, I have 
   </div>
 </div>
 
-As you can see (and hear), the phase canceled high band is not even remotely close to its expected counterpart. Obviously, a white noise is the worst possible case since it contains all the frequencies in the spectrum, but the result will be the same with more conventional material. Note that 
+As you can see (and hear), the phase canceled high band is not even remotely close to its expected counterpart. White noise is the worst possible case since it contains all the frequencies in the spectrum, but the result will be similar no matter what. Here's the expected frequency response of each high pass filter slope available in FabFilter Pro-Q 3 (in green) compared to their actual frequency response obtained by phase canceling the corresponding low pass filter (in salmon):
 
-Note that a popular Max for Live device called [Invisible Band Splitter](https://www.maxforlive.com/library/device/3341/invisible-band-splitter) suffers from the same issue. It uses hardcoded 6 dB / octave slopes, which results in a very minimal phase shift, but still not in a perfectly null cancellation. This hardcoded slope is also very low and doesn't allow any sort of precise splitting (especially in the lower frequencies). So try to avoid this device as well.
+{% include image.html path="posts/1-frequency-splitter/frequency-responses.gif" path-detail="posts/1-frequency-splitter/frequency-responses.gif" width="90%" alt="Frequency Responses" %}
+
+Note that a popular Max for Live device called [Invisible Band Splitter](https://www.maxforlive.com/library/device/3341/invisible-band-splitter) doesn't suffer from the same issue. It uses hardcoded 6 dB / octave slopes, which results in an almost perfect filter inversion (as you can see in the GIF above). This unique property is exclusive to first-order low-pass and high-pass filters (single-pole) such as the ones used in this device, making them a viable alternative to using linear phase filters (discussed in the next section). However, the resulting 6 dB / octave slope is very low and doesn't allow any sort of precise splitting (especially in the lower frequencies). So try to avoid this device as well if you want properly isolated bands with minimal overlap.
 
 ## The almost perfect frequency splitter
 
@@ -317,6 +319,6 @@ Here are the solutions you should avoid entirely:
     - \- Doesn't work in isolation (i.e. individual bands)
     - \- More complicated
 
-As you can see, there's not much to be gained from this clever phase cancellation trick. In practice, a standard Linkwitz-Riley frequency splitter is the way to go. It doesn't involve any phase cancellation trick, it's low latency and it works just fine. If you are working with phase-sensitive material, you could consider the phase cancellation trick (using linear phase filters exclusively) as an alternative.
+As you can see, there's not much to be gained from this clever phase cancellation trick. In practice, a standard Linkwitz-Riley frequency splitter is the way to go. It doesn't involve any phase cancellation trick, it's low latency and it works just fine. If you are working with phase-sensitive material, only then should you consider the phase cancellation trick (using linear phase filters exclusively) as an alternative.
 
 *All the figures in this post have been made with [Desmos](https://www.desmos.com/calculator) and captured with [GIFsmos V](https://jpanneton.dev/gifsmos-v).*
