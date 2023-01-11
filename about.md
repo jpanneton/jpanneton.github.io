@@ -16,6 +16,8 @@ P.S. This picture is a few years old. I have a mustache now.
 
 Contact: [contact@jpanneton.dev](mailto:contact@jpanneton.dev)
 
+Music: [SoundCloud](https://soundcloud.com/voidkll)
+
 Donations: [PayPal](https://www.paypal.com/donate/?business=GSXLZSTYDSXUW&no_recurring=0&currency_code=CAD)
 
 ## My studio

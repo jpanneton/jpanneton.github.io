@@ -263,7 +263,7 @@ Let's take a look at a white noise example. For the sake of the example, I have 
   </div>
 </div>
 
-As you can see (and hear), the phase canceled high band is not even remotely close to its expected counterpart. White noise is the worst possible case since it contains all the frequencies in the spectrum, but the result will be similar no matter what. Here's the expected frequency response of each high pass filter slope available in FabFilter Pro-Q 3 (in green) compared to their actual frequency response obtained by phase canceling the corresponding low pass filter (in salmon):
+As you can see (and hear), the phase canceled high band is not even remotely close to its expected counterpart. White noise is the worst possible case since it contains all the frequencies in the spectrum, but the result will be similar no matter what. Here's the expected frequency response of each high pass filter slope available in FabFilter Pro-Q 3 (in green) compared to their actual frequency response obtained by phase canceling the corresponding low pass filter (in salmon). In theory, both curves should be matching:
 
 {% include image.html path="posts/1-frequency-splitter/frequency-responses.gif" path-detail="posts/1-frequency-splitter/frequency-responses.gif" width="90%" alt="Frequency Responses" %}
 
