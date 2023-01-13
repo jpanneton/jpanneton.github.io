@@ -72,7 +72,7 @@ Here are other various plugins that are using Linkwitz–Riley filters:
 - [ShaperBox](https://www.cableguys.com/shaperbox.html)
 - Ableton's Multiband Dynamics
 
-Since most low-pass and high-pass filters are Butterworth, you can also build your own Linkwitz-Riley frequency splitter by using two identical low-pass filters and two identical high-pass filters chained one after the other. You can safely assume that it works with FabFilter Pro-Q and Ableton's EQ Eight (tested). Here are some racks I made using EQ Eight:
+Since most low-pass and high-pass filters are Butterworth, you can also build your own Linkwitz-Riley frequency splitter by using two identical low-pass filters and two identical high-pass filters chained one after the other. You can safely assume that it works with FabFilter Pro-Q in Natural Phase mode and Ableton's EQ Eight (tested). Otherwise, you can analyze any other EQ yourself using [Bertom's EQ Curve Analyzer](https://bertom.gumroad.com/l/eq-curve-analyzer) to make sure your splitter works as intended (flat amplitude response). Here are some racks I made using EQ Eight:
 
 - [Linkwitz-Riley, 24 dB slope, 2-band]({{ site.url }}/download/Frequency Splitter (LR24, 2-band).adg)
 - [Linkwitz-Riley, 24 dB slope, 3-band]({{ site.url }}/download/Frequency Splitter (LR24, 3-band).adg)
