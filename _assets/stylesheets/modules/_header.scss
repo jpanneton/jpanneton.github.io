@@ -24,7 +24,7 @@
   list-style: none;
   li {
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 15px;
     vertical-align: middle;
     &:first-child {
       margin-left: 0;
@@ -34,12 +34,13 @@
       color: $header-link-color;
       cursor: pointer;
       svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         fill: $header-link-color;
       }
       &:hover svg {
         fill: $header-link-color-hover;
+        transform: scale(1.15);
       }
     }
   }
@@ -84,4 +85,16 @@
       padding: 0 5px;
     }
   }
+}
+
+.icon-soundcloud use {
+  fill: #ff7700;
+}
+
+.icon-youtube use {
+  fill: #f70000;
+}
+
+.icon-twitter use {
+  fill: #1c96e8;
 }

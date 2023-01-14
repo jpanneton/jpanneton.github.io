@@ -8,6 +8,34 @@
         </a>
       </li>
     {% endif %}
+    {% if site.social.soundcloud %}
+      <li>
+        <a href="https://soundcloud.com/{{ site.social.soundcloud }}" rel="noreferrer noopener" target="_blank" title="SoundCloud">
+          {% include svg-icon.html icon="soundcloud" %}
+        </a>
+      </li>
+    {% endif %}
+    {% if site.social.spotify %}
+      <li>
+        <a href="https://open.spotify.com/artist/{{ site.social.spotify }}" rel="noreferrer noopener" target="_blank" title="Spotify">
+          {% include svg-icon.html icon="spotify" %}
+        </a>
+      </li>
+    {% endif %}
+    {% if site.social.youtube %}
+      <li>
+        <a href="https://www.youtube.com/@{{ site.social.youtube }}" rel="noreferrer noopener" target="_blank" title="YouTube">
+          {% include svg-icon.html icon="youtube" %}
+        </a>
+      </li>
+    {% endif %}
+    {% if site.social.twitch %}
+      <li>
+        <a href="https://www.twitch.tv/{{ site.social.twitch }}" rel="noreferrer noopener" target="_blank" title="Twitch">
+          {% include svg-icon.html icon="twitch" %}
+        </a>
+      </li>
+    {% endif %}
     {% if site.social.twitter %}
       <li>
         <a href="https://twitter.com/{{ site.social.twitter }}" rel="noreferrer noopener" target="_blank" title="Twitter">
@@ -103,27 +131,6 @@
       <li>
         <a href="https://{{ site.social.tumblr }}.tumblr.com" rel="noreferrer noopener" target="_blank" title="Tumblr">
           {% include svg-icon.html icon="tumblr" %}
-        </a>
-      </li>
-    {% endif %}
-    {% if site.social.spotify %}
-      <li>
-        <a href="https://play.spotify.com/user/{{ site.social.spotify }}" rel="noreferrer noopener" target="_blank" title="Spotify">
-          {% include svg-icon.html icon="spotify" %}
-        </a>
-      </li>
-    {% endif %}
-    {% if site.social.youtube %}
-      <li>
-        <a href="https://www.youtube.com/user/{{ site.social.youtube }}" rel="noreferrer noopener" target="_blank" title="Youtube">
-          {% include svg-icon.html icon="youtube" %}
-        </a>
-      </li>
-    {% endif %}
-    {% if site.social.twitch %}
-      <li>
-        <a href="https://www.twitch.tv/{{ site.social.twitch }}" rel="noreferrer noopener" target="_blank" title="Twitch">
-          {% include svg-icon.html icon="twitch" %}
         </a>
       </li>
     {% endif %}

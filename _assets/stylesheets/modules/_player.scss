@@ -26,10 +26,12 @@
   &:hover svg {
     fill: $header-link-color-hover;
     stroke: $header-link-color-hover;
+    transform: scale(1.05);
   }
 }
 
 .audio-player-spinner {
+  pointer-events: none;
   cursor: pointer;
   max-width: 40px;
   min-height: 40px;
