@@ -38,7 +38,7 @@ The problem with this approach is that crossovers don't have a flat amplitude re
 
   Using this formula, we can find that a sound which is twice the amplitude of the reference will yield a +6 dB SPL increment (keep that in mind for later):
 
-  $$20 * log_{10}(2) \approx 6$$
+  $$20 * log_{10}(2) \approx 6.021$$
 
   > "While every 6 dB SPL represents a doubling of amplitude, a non-exact rule-of-thumb is that every 10 dB increase is a doubling of perceived loudness" <cite>[Source](http://www.sengpielaudio.com/calculator-levelchange.htm)</cite>
 
@@ -72,12 +72,14 @@ Here are other various plugins that are using Linkwitz–Riley filters:
 - [ShaperBox](https://www.cableguys.com/shaperbox.html)
 - Ableton's Multiband Dynamics
 
-Since most low-pass and high-pass filters are Butterworth, you can also build your own Linkwitz-Riley frequency splitter by using two identical low-pass filters and two identical high-pass filters chained one after the other. You can safely assume that it works with FabFilter Pro-Q in Natural Phase mode and Ableton's EQ Eight (tested). Otherwise, you can analyze any other EQ yourself using [Bertom's EQ Curve Analyzer](https://bertom.gumroad.com/l/eq-curve-analyzer) to make sure your splitter works as intended (flat amplitude response). Here are some racks I made using EQ Eight:
+Since most low-pass and high-pass filters are Butterworth, you can also build your own Linkwitz-Riley frequency splitter by using two identical low-pass filters and two identical high-pass filters chained one after the other. You can safely assume that it works with FabFilter Pro-Q in Natural Phase mode and Ableton's EQ Eight (tested). Here are some racks I made using EQ Eight:
 
 - [Linkwitz-Riley, 24 dB slope, 2-band]({{ site.url }}/download/Frequency Splitter (LR24, 2-band).adg)
 - [Linkwitz-Riley, 24 dB slope, 3-band]({{ site.url }}/download/Frequency Splitter (LR24, 3-band).adg)
 - [Linkwitz-Riley, 96 dB slope, 2-band]({{ site.url }}/download/Frequency Splitter (LR96, 2-band).adg)
 - [Linkwitz-Riley, 96 dB slope, 3-band]({{ site.url }}/download/Frequency Splitter (LR96, 3-band).adg)
+
+Otherwise, you can implement your own splitter using any EQ by following the next section, and analyze it using [Bertom's EQ Curve Analyzer](https://bertom.gumroad.com/l/eq-curve-analyzer) to make sure it works as intended (perfectly flat amplitude response).
 
 <details open="true">
   <summary>Linkwitz-Riley design</summary>
@@ -94,7 +96,7 @@ Since most low-pass and high-pass filters are Butterworth, you can also build yo
     </div>
   </div>
 
-  For 3-band frequency splitters, it gets a little more complicated. We must make sure to align the phase of each band. To do so, we must redundantly apply the filtering from other bands. The additional processing behaves just like an all-pass filter. Note that for 3+ band designs, the implementation becomes increasingly complex (as you might have guessed).
+  For 3-band frequency splitters, it gets a little more complicated. We must make sure to align the phase of each band. To do so, we must redundantly apply the filtering from other bands. The additional processing behaves just like an all-pass filter.
 
   <div class="image-group">
     <div>
@@ -105,7 +107,20 @@ Since most low-pass and high-pass filters are Butterworth, you can also build yo
     </div>
   </div>
 
-  Each Linkwitz-Riley filter can be designed using Butterworth filters as follow:
+  For 3+ band designs, the implementation becomes increasingly complex when done from scratch (as you might have guessed). However, it can be easily generalized by reusing lower band splitters. Since this all comes down to syncing the phase response of each band so that when they are combined back together, their respective frequencies align properly, we can implement the 3-band design using the 2-band design exclusively.
+
+  <div class="image-group">
+    <div>
+      <figure>
+        <figcaption>3-band design</figcaption>
+        {% include image.html path="posts/1-frequency-splitter/Linkwitz-Riley Splitter (n-band).svg" path-detail="posts/1-frequency-splitter/Linkwitz-Riley Splitter (n-band).svg" width="100%" alt="n-band splitter design" %}
+      </figure>
+    </div>
+  </div>
+
+  As you can see, nested splitters can be used, but not blindly. The important part is to apply nested splitters on every sibling band to sync their phase. Note that we are ditching the splitted outputs entirely in the phase-corrected bands. Instead, we are running the splitter serially (just like a normal FX), since we are only interested in the phase side effects and not the splitting per se. This approach is a generalization of the above and can be used to implement a $n$-band splitter more easily.
+
+  Finally, each Linkwitz-Riley filter can be designed using Butterworth filters as follow:
 
   {% include image.html path="posts/1-frequency-splitter/Linkwitz-Riley Butterworth.svg" path-detail="posts/1-frequency-splitter/Linkwitz-Riley Butterworth.svg" width="100%" alt="Linkwitz-Riley filter design" %}
 
@@ -263,15 +278,17 @@ Let's take a look at a white noise example. For the sake of the example, I have 
   </div>
 </div>
 
-As you can see (and hear), the phase canceled high band is not even remotely close to its expected counterpart. White noise is the worst possible case since it contains all the frequencies in the spectrum, but the result will be similar no matter what. Here's the expected frequency response of each high pass filter slope available in FabFilter Pro-Q 3 (in green) compared to their actual frequency response obtained by phase canceling the corresponding low pass filter (in salmon). In theory, both curves should be matching:
+As you can see (and hear), the phase canceled high band is not even remotely close to its expected counterpart. White noise is the worst possible case since it contains all the frequencies in the spectrum, but the result will be similar no matter what. Here's the expected frequency response of each high pass filter slope available in FabFilter Pro-Q 3 (in green) compared to their actual frequency response obtained by phase canceling the corresponding low pass filter (in salmon). In theory, both curves should be matching *:
 
 {% include image.html path="posts/1-frequency-splitter/frequency-responses.gif" path-detail="posts/1-frequency-splitter/frequency-responses.gif" width="90%" alt="Frequency Responses" %}
 
-Note that a popular Max for Live device called [Invisible Band Splitter](https://www.maxforlive.com/library/device/3341/invisible-band-splitter) doesn't suffer from the same issue. It uses hardcoded 6 dB / octave slopes, which results in an almost perfect filter inversion (as you can see in the GIF above). This unique property is exclusive to first-order low-pass and high-pass filters (single-pole) such as the ones used in this device, making them a viable alternative to using linear phase filters (discussed in the next section). However, the resulting 6 dB / octave slope is very low and doesn't allow any sort of precise splitting (especially in the lower frequencies). So try to avoid this device as well if you want properly isolated bands with minimal overlap.
+\* FabFilter's Zero Latency mode was used when capturing these graphs. In this mode, filters are approximated to maximize efficiency (no latency), which means the resulting frequency response won't always match its analog reference perfectly. If this is important to you, the Natural Phase mode can be used instead, at the cost of latency.
+
+Note that a popular Max for Live device called [Invisible Band Splitter](https://www.maxforlive.com/library/device/3341/invisible-band-splitter) doesn't suffer from the same issue. It uses hardcoded 6 dB / octave slopes, which results in a perfect filter inversion (as you can see in the GIF above). This unique property is exclusive to first-order low-pass and high-pass filters (single-pole) such as the ones used in this device, making them a viable alternative to using linear phase filters (discussed in the next section). However, the resulting 6 dB / octave slope is very low and doesn't allow any sort of precise splitting (especially in the lower frequencies). So try to avoid this device as well if you want properly isolated bands with minimal overlap.
 
 ## The almost perfect frequency splitter
 
-To make the phase cancellation trick work as expected, we would need an EQ that doesn't change the phase of the signal. This is known as a *linear phase* EQ, and there are several VST plugins currently available on the market that support this feature (FabFilter Pro-Q 3, DMG EQuality, etc.). If we refer to the same figures as above, we can see that the linear phase version results in an almost null cancellation, meaning that no additional frequencies are being introduced by the process. One would think that we could maybe implement the standard Linkwitz-Riley frequency splitter using linear phase filters without any phase cancellation trick, but this is unfortunately not the case. There are a few drawbacks to keep in mind when using linear phase filters.
+To make the phase cancellation trick work as expected, we would need an EQ that doesn't change the signal's phase. It is known as a *linear phase* EQ, and several VST plugins currently on the market support this feature (FabFilter Pro-Q 3, DMG EQuality, etc.). If we refer to the figures above, we can see the linear phase version results in an almost null cancellation, meaning no additional frequencies are being introduced by the process. One would think that we could maybe implement the standard Linkwitz-Riley frequency splitter using linear phase filters without any phase cancellation trick, but there are a few drawbacks to keep in mind when using linear phase filters.
 
 First, it causes pre-ringing, which is some sort of backward echo that softens the transients. Since this is not the point of this post, I won't delve into much more details (Google is your friend), but keep in mind that more aggressive filters (high slope, high Q, high latency) in the lower end of the spectrum tend to cause more pre-ringing. However, pre-ringing is usually heard when boosting (e.g. bell shape) and less when cutting (crossover). So for our use case, the impact of pre-ringing is usually minimal.
 
@@ -280,6 +297,16 @@ Second, it may introduce some low-frequency imprecisions when used in a low enou
 Finally, as you might have guessed, it introduces a noticeable delay. This might be fine for the final mastering stages but is often not viable in a live context where MIDI input is involved (low latency). That's why it's usually never used for individual track processing.
 
 So, the almost perfect frequency splitter should be implemented using the proposed phase cancellation technique, but with linear phase filters (to preserve phase). The phase cancellation trick will allow to cancel out pre-ringing as well as potential low-frequency imprecisions, and the usage of linear phase filters will prevent the introduction of unwanted frequencies when canceling (as discussed above). In the end, the additional delay will be the only price to pay for such a splitter.
+
+Dan Worrall also has a [video](https://www.youtube.com/watch?v=951MnO8M1Qs) on the subject if you want to check that out.
+
+## Final considerations
+
+No matter which technique is being used, there are some considerations we need to keep in mind that apply to all of them. In general, creating static frequency splitters like these may lead to phase issues when processing the bands with phase-altering effects. Since the effects are only applied to some bands and not all, the phase response of each band may become out-of-sync with the others, which may introduce unexpected results when combined back together. That's why we can't naively nest frequency splitters to generate more bands (as we've seen in [The standard frequency splitter](#the-standard-frequency-splitter) section).
+
+Because of that, it's generally recommended to use your ears or use effects that are phase agnostic. Sometimes, the difference is minimal, and other times it can be more obvious. Pro-MB and others work by using dynamic modes which only alter the phase response proportionally to the amount of gain difference, but this technique only works for their specific use case (multiband compression). Otherwise, we can treat the splitter as an effect itself and not care about any of this. 
+
+All in all, I usually use this sort of trick for individual sound design / processing, rather than mixing and bus processing (main groups, master, etc.). I would advise not using it on punchy or low-frequency elements as well, such as the kick and the sub-bass. If you do, try to avoid using too low crossovers and make sure to use your ears.
 
 ## Conclusion
 
@@ -299,14 +326,7 @@ When implementing a frequency splitter, you should seek the following solutions 
     - \- Cannot be implemented using most EQs
     - \- More complicated
     - \- Higher latency
-
-Here are the solutions you should avoid entirely:
-
-1. [The naive frequency splitter](#the-naive-frequency-splitter)
-    - \+ Simple
-    - \- Colored crossovers
-    - \- Altered phase response
-2. [The standard frequency splitter](#the-standard-frequency-splitter) using linear phase filters
+3. [The standard frequency splitter](#the-standard-frequency-splitter) using linear phase filters
     - \+ Flat phase response
     - \+ Simple
     - \+ No phase cancellation tricks
@@ -314,11 +334,20 @@ Here are the solutions you should avoid entirely:
     - \- May introduce low-frequency imprecisions (colored crossovers)
     - \- Cannot be implemented using most EQs
     - \- Higher latency
-3. [The "phase correct" frequency splitter](#the-phase-correct-frequency-splitter)
+
+Here are the solutions you should avoid entirely:
+
+1. [The naive frequency splitter](#the-naive-frequency-splitter)
+    - \+ Simple
+    - \- Colored crossovers
+    - \- Altered phase response
+2. [The "phase correct" frequency splitter](#the-phase-correct-frequency-splitter)
     - \+ Reconstructs the exact input signal back
     - \- Doesn't work in isolation (i.e. individual bands)
     - \- More complicated
 
 As you can see, there's not much to be gained from this clever phase cancellation trick. In practice, a standard Linkwitz-Riley frequency splitter is the way to go. It doesn't involve any phase cancellation trick, it's low latency and it works just fine. If you are working with phase-sensitive material, only then should you consider the phase cancellation trick (using linear phase filters exclusively) as an alternative.
+
+Note that this post will be frequently updated, and a series of YouTube videos are coming along the way. Stay tuned, and feel free to share and comment in the meantime.
 
 *All the figures in this post have been made with [Desmos](https://www.desmos.com/calculator) and captured with [GIFsmos V](https://jpanneton.dev/gifsmos-v).*
