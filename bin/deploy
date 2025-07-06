@@ -15,7 +15,7 @@ fi
 git checkout -b gh-pages
 
 # Build site.
-yarn install --modules-folder ./_assets/yarn
+yarn install
 bundle.cmd exec jekyll build
 
 # Delete and move files.
@@ -30,7 +30,7 @@ git push -f -q origin gh-pages
 
 # Move back to previous branch.
 git checkout -
-yarn install --modules-folder ./_assets/yarn
+yarn install
 
 echo "Deployed Successfully!"
 

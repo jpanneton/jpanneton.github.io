@@ -1,6 +1,6 @@
-<a href="{% asset '{{ include.path-detail }}' @path %}">
-  <img src="{% asset '{{ include.path }}' @path %}" alt="{{ include.alt }}" class="zooming" width="{{ include.width }}"
-    data-rjs="{% asset '{{ include.path-detail }}' @path %}"
+<a href="{{ '/assets/images/' | append: include.path-detail | relative_url }}">
+  <img src="{{ '/assets/images/' | append: include.path | relative_url }}" alt="{{ include.alt }}" class="zooming" width="{{ include.width }}"
+    data-rjs="{{ '/assets/images/' | append: include.path-detail | relative_url }}"
     data-zooming-width="{{ assets[include.path-detail].dimensions.width }}"
     data-zooming-height="{{ assets[include.path-detail].dimensions.height }}"
   />

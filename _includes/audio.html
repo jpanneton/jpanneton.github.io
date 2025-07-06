@@ -1,6 +1,6 @@
 <div class="audio-player">
   <audio hidden>
-    <source src="{% asset '{{ include.path }}' @path %}" type="audio/mpeg">
+    <source src="{{ '/assets/images/' | append: include.path | relative_url }}" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
   <div class="audio-player-button">

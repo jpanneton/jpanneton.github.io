@@ -45,16 +45,6 @@ social:
 
 # Important settings (change at own risk)
 
-assets:
-  plugins:
-    css: { autoprefixer: {}}
-    img: { optim: {}}
-  source_maps: false
-  sources:
-    - _assets/icons
-    - _assets/javascripts
-    - _assets/stylesheets
-    - _assets/yarn
 collections:
   my_tags:
     output: true
@@ -78,7 +68,6 @@ exclude:
   - vendor/
   - yarn.lock
 plugins:
-  - jekyll-assets
   - jekyll-paginate
   - jekyll-sitemap
   - jemoji

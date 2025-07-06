@@ -1,16 +1,20 @@
-{% asset vendor.js %}
+<script src="{{ '/assets/vendor/jquery.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/vendor/zooming.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/vendor/retina.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/vendor/svgxuse.min.js' | relative_url }}"></script>
 
 {% unless site.local_fonts %}
-  {% asset webfonts.js %}
+  <script src="{{ '/assets/vendor/webfontloader.js' | relative_url }}"></script>
+  <script src="{{ '/assets/javascripts/webfonts.js' | relative_url }}"></script>
 {% endunless %}
 
 {% if site.scrollappear_enabled %}
-  {% asset scrollappear.js %}
+  <script src="{{ '/assets/javascripts/scrollappear.js' | relative_url }}"></script>
 {% endif %}
 
-{% asset application.js %}
-{% asset player.js %}
+<script src="{{ '/assets/javascripts/application.js' | relative_url }}"></script>
+<script src="{{ '/assets/javascripts/player.js' | relative_url }}"></script>
 
 {% if site.theme_toggle == true %}
-  {% asset themetoggle.js %}
+  <script src="{{ '/assets/javascripts/themetoggle.js' | relative_url }}"></script>
 {% endif %}

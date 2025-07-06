@@ -1,5 +1,3 @@
-//= require_self
-
 $(document).ready(function() {
   $('html').removeClass('fouc');
 
