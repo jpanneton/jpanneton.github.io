@@ -1,0 +1,41 @@
+{
+  "name": "@iarna/cli",
+  "version": "2.2.0",
+  "description": "Some simple CLI scaffolding for promise returning applications.",
+  "main": "app.js",
+  "scripts": {
+    "test": "tap test/scenarios.js"
+  },
+  "keywords": [],
+  "author": "Rebecca Turner <me@re-becca.org> (http://re-becca.org/)",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^7.1.2",
+    "signal-exit": "^3.0.2"
+  },
+  "files": [
+    "app.js"
+  ],
+  "devDependencies": {
+    "@perl/qr": "^1.2.0",
+    "@perl/qx": "^1.0.2",
+    "minimist": "*",
+    "require-inject": "^1.4.4",
+    "tap": "*",
+    "update-notifier": "*",
+    "yargs": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iarna/cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iarna/cli/issues"
+  },
+  "homepage": "https://github.com/iarna/cli#readme",
+  "tap": {
+    "plugin": [
+      "@tapjs/synonyms"
+    ]
+  }
+}
