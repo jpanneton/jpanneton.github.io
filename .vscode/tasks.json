@@ -16,6 +16,20 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "Chalk: Build",
+			"detail": "npm run build",
+			"command": "npm run build",
+			"type": "shell",
+			"windows": {
+				"options": {
+					"shell": {
+						"executable": "C:/Program Files/Git/bin/sh.exe"
+					}
+				}
+			},
+			"problemMatcher": []
+		},
+		{
 			"label": "Chalk: Run",
 			"detail": "npm run local",
 			"command": "npm run local",
@@ -31,8 +45,8 @@
 		},
 		{
 			"label": "Chalk: Publish",
-			"detail": "npm run deploy",
-			"command": "npm run deploy",
+			"detail": "npm run publish",
+			"command": "npm run publish",
 			"type": "shell",
 			"windows": {
 				"options": {

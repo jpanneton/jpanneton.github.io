@@ -7,6 +7,8 @@ set -e
 
 echo "Started deploying"
 
+git stash -k -u -m "Autostash"
+
 # Checkout gh-pages branch.
 if [ `git branch | grep gh-pages` ]
 then

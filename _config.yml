@@ -66,6 +66,7 @@ exclude:
   - package-lock.json
   - README.md
   - vendor/
+  - Usage.txt
   - yarn.lock
 plugins:
   - jekyll-paginate
