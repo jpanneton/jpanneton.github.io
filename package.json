@@ -2,15 +2,15 @@
   "name": "chalk",
   "scripts": {
     "setup": "sh bin/setup",
+    "build": "bundle exec jekyll build",
     "local": "bundle exec jekyll serve --drafts",
-    "publish": "sh bin/deploy"
+    "publish": "sh bin/publish"
   },
   "dependencies": {
-    "jquery": "^3.2.1",
-    "npm": "^6.0.1",
-    "retinajs": "^2.1.1",
-    "svgxuse": "^1.2.4",
+    "jquery": "^3.7.1",
+    "retinajs": "^2.1.3",
+    "svgxuse": "^1.2.6",
     "webfontloader": "^1.6.28",
-    "zooming": "^2.0.0"
+    "zooming": "^2.1.1"
   }
 }
