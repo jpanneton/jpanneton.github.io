@@ -29,7 +29,7 @@ The problem with this approach is that crossovers don't have a flat amplitude re
 
   $$dB = 10 * log_{10}\left(\frac{P_1}{P_2}\right)$$
 
-  In the physical world, dB is most often used to express sound pressure level (SPL). This is the unit used by noise level charts (e.g. "a lawnmower is 90 dB" type of chart). SPL can be calculated using the following formula, where $p$ is a sound pressure in pascals (Pa) and $p_0$ the reference sound pressure (usual $20\mu$ Pa, which is the lowest hearing threshold of a young and healthy ear):
+  In the physical world, dB is most often used to express sound pressure level (SPL). This is the unit used by noise level charts (e.g. "a lawnmower is 90 dB" type of chart). SPL can be calculated using the following formula, where $p$ is a sound pressure in pascals (Pa) and $p_0$ the reference sound pressure (usually $20\mu$ Pa, which is the lowest hearing threshold of a young and healthy ear):
 
   $$\begin{align}
   dB(SPL) = 10 * log_{10}\left(\frac{p^2}{p_0^2}\right) \\
@@ -59,7 +59,7 @@ Nowadays, most frequency splitters are using Linkwitz–Riley filters. Unlike tr
 
 In other words, the crossover behaves like an all-pass filter, meaning that only the phase response is (smoothly) changed. When using filters with more aggressive slopes, the phase change can be heard by simply duplicating the dry frequency splitter a few times. However, in practice, this should be a non-issue for most people since processing is being applied to each band and the processing often messes with the phase itself. Also, when using a single frequency splitter at a time (general use case), this phase change can't be heard by the untrained ear.
 
-There are a lot of people arguing online that such a phase shift will wreck your mix. Yet, most are proposing solutions such as the one discussed in this post (the Multiplier splitter), which are even worst. There are indeed some phase implications of using Linkwitz-Riley crossovers (which will be discussed in another blog post), but the consensus is that you shouldn't care. They are an industry standard and have been used for decades for this exact purpose. For mastering or phase-sensitive work, plugins will usually opt for more CPU-intensive methods such as linear phase filters to preserve phase as much as possible, as we will see later in this post.
+There are a lot of people arguing online that such a phase shift will wreck your mix. Yet, most are proposing solutions such as the one discussed in this post (the Multiplier splitter), which are even worse. There are indeed some phase implications of using Linkwitz-Riley crossovers, some of which will be covered in the [Final considerations](#final-considerations) section, but the consensus is that you shouldn't care. They are an industry standard and have been used for decades for this exact purpose. For mastering or phase-sensitive work, plugins will usually opt for more CPU-intensive methods such as linear phase filters to preserve phase as much as possible, as we will see later in this post.
 
 Here are some frequency splitting VST plugins that are using Linkwitz–Riley filters:
 
@@ -133,14 +133,12 @@ Otherwise, you can implement your own splitter using any EQ by following the nex
   | 4 | −24 dB / octave | 8 | −48 dB / octave |
   | 8 | −48 dB / octave | 16 | −96 dB / octave |
 
-  If you want to learn more about Linkwitz-Riley filters, stay tuned for my next blog post.
-
   </div>
 </details>
 
 ## The "phase correct" frequency splitter
 
-In his video, Multiplier demonstrated that using a naive frequency splitter was messing up the phase. As a result, he wasn't able to exactly reconstruct the original signal back. Instead, the dry frequency splitter was generating a new signal that was sounding the same as the original but had an altered phase. Then, he claimed that to fix this "issue", you could use a phase cancellation technique to perform the frequency splitting instead.
+In his video, Multiplier demonstrated that using a naive frequency splitter was messing up the phase. As a result, he couldn't exactly reconstruct the original signal. Instead, the dry frequency splitter was generating a new signal that was sounding the same as the original but had an altered phase. Then, he claimed that to fix this "issue", you could use a phase cancellation technique to perform the frequency splitting instead.
 
 <details open="true">
   <summary>Phase primer</summary>
@@ -159,10 +157,21 @@ In his video, Multiplier demonstrated that using a naive frequency splitter was 
 
   I won't go into much more detail, but this should allow you to understand how the "phase correct" frequency splitter makes clever use of destructive interference to cancel frequential information out, as you will read below.
 
+  Dan Worrall also has an excellent [video](https://www.youtube.com/watch?v=efKabAQQsPQ) on the subject if you want to check that out.
+
   </div>
 </details>
 
 The gist of it is simple: instead of using a low-pass filter and a high-pass filter to build the crossover, you use either one of them on both bands, invert the phase on the second band and use the result to cancel the dry signal. In other words, you filter the first band normally, and take the remainder for the second band instead of using a crossover. In theory, it allows to extract the information that was cut out by the filter exactly, which allows to reconstruct the original dry signal back perfectly. However, in practice, it fails terribly when bands are used in isolation.
+
+<div class="image-group">
+  <div>
+    <figure>
+      <figcaption>2-band design</figcaption>
+      {% include image.html path="posts/1-frequency-splitter/Phase Invert Splitter (2-band).svg" path-detail="posts/1-frequency-splitter/Phase Invert Splitter (2-band).svg" width="100%" alt="2-band splitter design" %}
+    </figure>
+  </div>
+</div>
 
 Let's suppose our signal consists of two basic sine waves of different frequencies:
 
@@ -186,7 +195,7 @@ Let's suppose our signal consists of two basic sine waves of different frequenci
 
 {% include image.html path="posts/1-frequency-splitter/6-combined-signal.svg" path-detail="posts/1-frequency-splitter/6-combined-signal.svg" width="50%" alt="Combined signal" %}
 
-Our goal is to split this signal and get the original sine waves back. To do so, we try the above logic and apply a low-pass filter to the signal. Because we are using low latency filters, we can expect the phase of the resulting sine wave to be a bit offset compared to the original. In fact, the closer the original signal is to the crossover frequency and the steeper the slope of the low-pass filter is, the worst the phase shift becomes.
+Our goal is to split this signal and get the original sine waves back. To do so, we try the above logic and apply a low-pass filter to the signal. Because we are using low latency filters, we can expect the phase of the resulting sine wave to be a bit offset compared to the original. In fact, the closer the original signal is to the crossover frequency and the steeper the slope of the low-pass filter is, the worse the phase shift becomes.
 
 {% include image.html path="posts/1-frequency-splitter/7-phase-shift.svg" path-detail="posts/1-frequency-splitter/7-phase-shift.svg" width="50%" alt="Low frequency phase shift" %}
 
@@ -228,7 +237,7 @@ As you can see, this "new" frequency looks quite familiar: it's a phase-shifted 
 
 {% include image.html path="posts/1-frequency-splitter/12-phase-shift-error.svg" path-detail="posts/1-frequency-splitter/12-phase-shift-error.svg" width="50%" alt="Phase shift error" %}
 
-In short, this means that phase-canceled bands will always contain some of the frequencies that were used to cancel them, and their amplitude will directly depend on the filters being used (steeper filter results in a greater phase shift).
+In short, this means that phase-canceled bands will always contain some of the frequencies that were used to cancel them, and their amplitude will directly depend on the filters being used, since steeper filters result in a greater phase shift.
 
 This is of course a theoretical example with only two sine waves involved, but you can see how many unwanted frequencies might be introduced in the phase canceled band of Multiplier's "phase correct" frequency splitter. This is audible and measurable just by soloing the said band. Sure, you can reconstruct the original signal that way, but the band doesn't hold the expected information in isolation, which defeats the whole purpose of using a frequency splitter to process bands independently.
 
@@ -237,7 +246,7 @@ Let's take a look at a white noise example. For the sake of the example, I have 
 <div class="image-group">
   <div>
     <figure>
-      <figcaption>White Noise (full range)</figcaption>
+      <figcaption>White noise (full range)</figcaption>
       {% include image.html path="posts/1-frequency-splitter/White Noise (full).png" path-detail="posts/1-frequency-splitter/White Noise (full).png" alt="White Noise (full range)" %}
       {% include audio.html path="posts/1-frequency-splitter/White Noise (full).mp3" %}
     </figure>
@@ -292,7 +301,7 @@ To make the phase cancellation trick work as expected, we would need an EQ that 
 
 First, it causes pre-ringing, which is some sort of backward echo that softens the transients. Since this is not the point of this post, I won't delve into much more details (Google is your friend), but keep in mind that more aggressive filters (high slope, high Q, high latency) in the lower end of the spectrum tend to cause more pre-ringing. However, pre-ringing is usually heard when boosting (e.g. bell shape) and less when cutting (crossover). So for our use case, the impact of pre-ringing is usually minimal.
 
-Second, it may introduce some low-frequency imprecisions when used in a low enough crossover. FabFilter Pro-Q lets you choose different processing resolutions, which result in different linear phase filter delays. The greater the delay, the better the response in the low frequencies, at the cost of more pre-ringing. The lesser the delay, the worst the response in the low frequencies, at the benefit of less pre-ringing. Steeper filters will also result in greater imprecisions. To compensate, longer delays must usually be used when low-frequency precision is paramount.
+Second, it may introduce some low-frequency imprecisions when used in a low enough crossover. FabFilter Pro-Q lets you choose different processing resolutions, which result in different linear phase filter delays. The greater the delay, the better the response in the low frequencies, at the cost of more pre-ringing. The lesser the delay, the worse the response in the low frequencies, at the benefit of less pre-ringing. Steeper filters will also result in greater imprecisions. To compensate, longer delays must usually be used when low-frequency precision is paramount.
 
 Finally, as you might have guessed, it introduces a noticeable delay. This might be fine for the final mastering stages but is often not viable in a live context where MIDI input is involved (low latency). That's why it's usually never used for individual track processing.
 
@@ -304,9 +313,38 @@ Dan Worrall also has a [video](https://www.youtube.com/watch?v=951MnO8M1Qs) on t
 
 No matter which technique is being used, there are some considerations we need to keep in mind that apply to all of them. In general, creating static frequency splitters like these may lead to phase issues when processing the bands with phase-altering effects. Since the effects are only applied to some bands and not all, the phase response of each band may become out-of-sync with the others, which may introduce unexpected results when combined back together. That's why we can't naively nest frequency splitters to generate more bands (as we've seen in [The standard frequency splitter](#the-standard-frequency-splitter) section).
 
-Because of that, it's generally recommended to use your ears or use effects that are phase agnostic. Sometimes, the difference is minimal, and other times it can be more obvious. Pro-MB and others work by using dynamic modes which only alter the phase response proportionally to the amount of gain difference, but this technique only works for their specific use case (multiband compression). Otherwise, we can treat the splitter as an effect itself and not care about any of this. 
+Because of that, it's generally recommended to use your ears or use phase agnostic effects. Sometimes, the difference is minimal, and other times it can be more obvious. Pro-MB and others work by using dynamic modes which only alter the phase response proportionally to the amount of gain difference, but this technique only works for their specific use case (multiband compression). Otherwise, we can treat the splitter as an effect itself and not care about any of this.
 
-All in all, I usually use this sort of trick for individual sound design / processing, rather than mixing and bus processing (main groups, master, etc.). I would advise not using it on punchy or low-frequency elements as well, such as the kick and the sub-bass. If you do, try to avoid using too low crossovers and make sure to use your ears.
+If you plan on using [The standard frequency splitter](#the-standard-frequency-splitter) for non-creative reasons, remember that phase shifts will change how the signal looks in the time domain, even if the spectral content remains the same. This means the splitter will sound transparent when dry, but the resulting signal won't look the same, as demonstrated in [The "phase correct" frequency splitter](#the-phase-correct-frequency-splitter) section.
+
+For instance, here is a snare with and without a dry 2-band splitter at 500 Hz:
+
+<div class="image-group">
+  <div>
+    <figure>
+      <figcaption>Snare (dry)</figcaption>
+      {% include image.html path="posts/1-frequency-splitter/Snare (dry).png" path-detail="posts/1-frequency-splitter/Snare (dry).png" alt="Snare (dry)" %}
+      {% include audio.html path="posts/1-frequency-splitter/Snare (dry).wav" %}
+    </figure>
+  </div>
+  <div>
+    <figure>
+      <figcaption>Snare (all-pass)</figcaption>
+      {% include image.html path="posts/1-frequency-splitter/Snare (all-pass).png" path-detail="posts/1-frequency-splitter/Snare (all-pass).png" alt="Snare (all-pass)" %}
+      {% include audio.html path="posts/1-frequency-splitter/Snare (all-pass).wav" %}
+    </figure>
+  </div>
+</div>
+
+They both sound identical, but the dry one peaks at -6 dB, while the all-passed one peaks at 0 dB.
+
+{% include image.html path="posts/1-frequency-splitter/Snare (layers).png" path-detail="posts/1-frequency-splitter/Snare (layers).png" width="90%" alt="Snare (layers).png" %}
+
+This is due to the fact that different phases yield different summed signals. This is usually not a problem, but it can be when using effects that rely on the input level, such as compressors, limiters, saturators, clippers, etc. In this case, it might ultimately sound different because the processing will be altered based on the summed level. This means that using such a splitter on a track may have an effect on some random bus processing down the line. This is why some people are arguing that such phase shifts may wreck your mix (e.g. [Fox Stevenson on OTT](https://www.youtube.com/watch?v=64ka_BNfx1o)), but in reality, you just have to be careful with it and stay aware of its implications.
+
+Another thing to keep in mind is when using the splitter for parallel processing. Since the phase of one of the signals has changed, combining it back with the original signal will cause destructive interference (notch filters at the crossovers in the frequency domain). This is why such splitters should rarely be used for parallel processing or interfaced with external dry/wet controls.
+
+All in all, I usually only use this splitter for local sound design rather than mixing and bus processing (main groups, master, etc.). I recommend not using it on punchy or low-frequency elements, such as kicks and sub-basses, and if you do, try to avoid using low crossovers. When in doubt, just use your ears.
 
 ## Conclusion
 
@@ -316,6 +354,7 @@ When implementing a frequency splitter, you should seek the following solutions 
     - \+ Flat amplitude response
     - \+ Simple
     - \+ Low latency
+    - \+ CPU efficient
     - \+ No phase cancellation tricks
     - \+ Can be implemented using most EQs
     - \- Altered phase response
@@ -326,6 +365,7 @@ When implementing a frequency splitter, you should seek the following solutions 
     - \- Cannot be implemented using most EQs
     - \- More complicated
     - \- Higher latency
+    - \- CPU intensive
 3. [The standard frequency splitter](#the-standard-frequency-splitter) using linear phase filters
     - \+ Flat phase response
     - \+ Simple
@@ -334,6 +374,7 @@ When implementing a frequency splitter, you should seek the following solutions 
     - \- May introduce low-frequency imprecisions (colored crossovers)
     - \- Cannot be implemented using most EQs
     - \- Higher latency
+    - \- CPU intensive
 
 Here are the solutions you should avoid entirely:
 
@@ -348,6 +389,6 @@ Here are the solutions you should avoid entirely:
 
 As you can see, there's not much to be gained from this clever phase cancellation trick. In practice, a standard Linkwitz-Riley frequency splitter is the way to go. It doesn't involve any phase cancellation trick, it's low latency and it works just fine. If you are working with phase-sensitive material, only then should you consider the phase cancellation trick (using linear phase filters exclusively) as an alternative.
 
-Note that this post will be frequently updated, and a series of YouTube videos are coming along the way. Stay tuned, and feel free to share and comment in the meantime.
+Note that this post will be frequently updated. A series of YouTube videos are coming along the way as well. Stay tuned, and feel free to share and comment in the meantime.
 
 *All the figures in this post have been made with [Desmos](https://www.desmos.com/calculator) and captured with [GIFsmos V](https://jpanneton.dev/gifsmos-v).*
