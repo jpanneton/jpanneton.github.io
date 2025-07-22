@@ -69,8 +69,9 @@ Here are some frequency splitting VST plugins that are using Linkwitz–Riley fi
 
 Here are other various plugins that are using Linkwitz–Riley filters:
 
-- [ShaperBox](https://www.cableguys.com/shaperbox.html)
-- Ableton's Multiband Dynamics
+- [OTT](https://xferrecords.com/freeware) (free)
+- [ShaperBox](https://www.cableguys.com/shaperbox.html) (paid)
+- Ableton's Multiband Dynamics (e.g. stock OTT)
 
 Since most low-pass and high-pass filters are Butterworth, you can also build your own Linkwitz-Riley frequency splitter by using two identical low-pass filters and two identical high-pass filters chained one after the other. You can safely assume that it works with FabFilter Pro-Q in Natural Phase mode and Ableton's EQ Eight (tested). Here are some racks I made using EQ Eight:
 
@@ -299,7 +300,7 @@ Note that a popular Max for Live device called [Invisible Band Splitter](https:/
 
 To make the phase cancellation trick work as expected, we would need an EQ that doesn't change the signal's phase. It is known as a *linear phase* EQ, and several VST plugins currently on the market support this feature (FabFilter Pro-Q 3, DMG EQuality, etc.). If we refer to the figures above, we can see the linear phase version results in an almost null cancellation, meaning no additional frequencies are being introduced by the process. One would think that we could maybe implement the standard Linkwitz-Riley frequency splitter using linear phase filters without any phase cancellation trick, but there are a few drawbacks to keep in mind when using linear phase filters.
 
-First, it causes pre-ringing, which is some sort of backward echo that softens the transients. Since this is not the point of this post, I won't delve into much more details (Google is your friend), but keep in mind that more aggressive filters (high slope, high Q, high latency) in the lower end of the spectrum tend to cause more pre-ringing. However, pre-ringing is usually heard when boosting (e.g. bell shape) and less when cutting (crossover). So for our use case, the impact of pre-ringing is usually minimal.
+First, it causes pre-ringing, which is some sort of backward echo that softens the transients, to put it simply. Since this is not the point of this post, I won't delve into much more details (Google is your friend), but keep in mind that more aggressive filters (high slope, high Q, high latency) in the lower end of the spectrum tend to cause more pre-ringing. However, pre-ringing is usually heard when boosting (e.g. bell shape) and less when cutting (crossover). So for our use case, the impact of pre-ringing is usually minimal.
 
 Second, it may introduce some low-frequency imprecisions when used in a low enough crossover. FabFilter Pro-Q lets you choose different processing resolutions, which result in different linear phase filter delays. The greater the delay, the better the response in the low frequencies, at the cost of more pre-ringing. The lesser the delay, the worse the response in the low frequencies, at the benefit of less pre-ringing. Steeper filters will also result in greater imprecisions. To compensate, longer delays must usually be used when low-frequency precision is paramount.
 

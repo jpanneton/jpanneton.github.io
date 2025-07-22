@@ -16,14 +16,4 @@ P.S. This picture is a few years old. I have a mustache now.
 
 Contact: [contact@jpanneton.dev](mailto:contact@jpanneton.dev)
 
-Music: [SoundCloud](https://soundcloud.com/voidkll)
-
 Donations: [PayPal](https://www.paypal.com/donate/?business=GSXLZSTYDSXUW&no_recurring=0&currency_code=CAD)
-
-## My studio
-
-- APS Klasik nearfield monitors
-- Adam A77X midfield monitors
-- Lewitt LCT 440 Pure microphone
-- Audient iD44 audio interface
-- Focal Clear Pro headphones
