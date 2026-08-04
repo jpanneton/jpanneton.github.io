@@ -8,6 +8,11 @@
 @use "sass:color";
 @use "palette" as p;
 
+// Tells the browser which scheme this theme is, so native UI (scrollbars,
+// form controls, the canvas before CSS applies) matches it.
+
+$color-scheme: light !default;
+
 // Font colors
 
 $base-font-color: p.$gray-dark !default;

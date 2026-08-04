@@ -49,6 +49,22 @@
       <link rel="stylesheet" type="text/css" title="dark" id="dark" href="{{ '/assets/stylesheets/dark.css' | relative_url }}" disabled="false">
     {% endif %}
 
+    {% comment %}
+      Resolve the theme before the first paint, otherwise the page renders with
+      the default above and visibly flips once themetoggle.js runs at the end of
+      the body. An explicit choice wins; otherwise follow the system preference.
+    {% endcomment %}
+    <script>
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (e) {}
+        var dark = stored
+          ? stored === 'dark'
+          : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.getElementById('dark').disabled = !dark;
+      })();
+    </script>
+
   {% else %}
 
     {% if site.blog_theme == "light" %}

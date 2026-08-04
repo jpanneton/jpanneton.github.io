@@ -1,26 +1,43 @@
-// Theme init
-if (!localStorage.getItem('theme'))
-  localStorage.setItem('theme', "light");
-themer();
+// The initial theme is resolved by an inline script in the head, before the
+// first paint. This file only handles switching after that.
+
+function themer(theme) {
+  document.getElementById('dark').disabled = theme !== 'dark';
+}
+
+function currentTheme() {
+  return document.getElementById('dark').disabled ? 'light' : 'dark';
+}
+
+function storedTheme() {
+  try {
+    return localStorage.getItem('theme');
+  } catch (e) {
+    return null;
+  }
+}
 
 // Theme toggle
 function toggle() {
-  if(localStorage.getItem('theme') == "light")
-    localStorage.setItem('theme', "dark");
-  else if(localStorage.getItem('theme') == "dark")
-    localStorage.setItem('theme', "light");
-  themer();
+  var next = currentTheme() === 'dark' ? 'light' : 'dark';
+  try {
+    localStorage.setItem('theme', next);
+  } catch (e) {}
+  themer(next);
 }
 
-// Theme set
-function themer() {
-  var tone = localStorage.getItem('theme');
-  var light = document.getElementById("light");
+// Keep following the system preference until a theme is picked explicitly.
+if (window.matchMedia) {
+  var query = window.matchMedia('(prefers-color-scheme: dark)');
+  var follow = function (event) {
+    if (!storedTheme()) {
+      themer(event.matches ? 'dark' : 'light');
+    }
+  };
 
-  if(tone == "dark"){
-    dark.disabled = false;
-  }
-  else{
-    dark.disabled = true;
+  if (query.addEventListener) {
+    query.addEventListener('change', follow);
+  } else if (query.addListener) {
+    query.addListener(follow);
   }
 }

@@ -9,6 +9,7 @@
 
 @use "palette" as p;
 @use "settings" as * with (
+  $color-scheme: dark,
   $base-font-color: p.$gray-lighter,
   $base-accent-color: p.$gray-lighter,
   $base-border-color: p.$gray-darker,
