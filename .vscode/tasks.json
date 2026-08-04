@@ -1,60 +1,55 @@
 {
 	"version": "2.0.0",
+	// Windows overrides use "bundle.cmd" so the tasks work under Git Bash too.
+	// See the Windows notes in Usage.txt.
 	"tasks": [
 		{
-			"label": "Chalk: Setup",
-			"detail": "npm run setup",
-			"command": "npm run setup",
-			"type": "shell",
+			"label": "Chalk: Serve",
+			"detail": "Serve the site locally at http://localhost:4000 (includes drafts)",
+			"command": "bundle exec jekyll serve --drafts",
 			"windows": {
-				"options": {
-					"shell": {
-						"executable": "C:/Program Files/Git/bin/sh.exe"
-					}
-				}
+				"command": "bundle.cmd exec jekyll serve --drafts"
+			},
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
 			},
 			"problemMatcher": []
 		},
 		{
 			"label": "Chalk: Build",
-			"detail": "npm run build",
-			"command": "npm run build",
-			"type": "shell",
+			"detail": "Build the production site into _site",
+			"command": "bundle exec jekyll build",
 			"windows": {
-				"options": {
-					"shell": {
-						"executable": "C:/Program Files/Git/bin/sh.exe"
-					}
+				"command": "bundle.cmd exec jekyll build"
+			},
+			"type": "shell",
+			"options": {
+				"env": {
+					"JEKYLL_ENV": "production"
 				}
 			},
 			"problemMatcher": []
 		},
 		{
-			"label": "Chalk: Run",
-			"detail": "npm run local",
-			"command": "npm run local",
-			"type": "shell",
+			"label": "Chalk: Install dependencies",
+			"detail": "bundle install",
+			"command": "bundle install",
 			"windows": {
-				"options": {
-					"shell": {
-						"executable": "C:/Program Files/Git/bin/sh.exe"
-					}
-				}
+				"command": "bundle.cmd install"
 			},
+			"type": "shell",
 			"problemMatcher": []
 		},
 		{
-			"label": "Chalk: Publish",
-			"detail": "npm run publish",
-			"command": "npm run publish",
-			"type": "shell",
+			"label": "Chalk: Check links",
+			"detail": "Build, then run html-proofer over _site",
+			"command": "bundle exec jekyll build && bundle exec htmlproofer ./_site",
 			"windows": {
-				"options": {
-					"shell": {
-						"executable": "C:/Program Files/Git/bin/sh.exe"
-					}
-				}
+				"command": "bundle.cmd exec jekyll build && bundle.cmd exec htmlproofer ./_site"
 			},
+			"type": "shell",
 			"problemMatcher": []
 		}
 	]

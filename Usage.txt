@@ -4,9 +4,22 @@ Posts must be added to the _posts folder and require a date prefix:
 Drafts can be added to the _drafts folder and don't require any date prefix:
 my-new-draft.md
 
-To run Jekyll, use the launch config in vscode and access the server in a browser:
-http://localhost:4000/
+One-time setup (no Node needed):
+bundle install
 
-To publish, commit changes on the main branch and deploy it to gh-pages:
+To run Jekyll locally, use the "Chalk: Serve" task in VS Code (Ctrl+Shift+B),
+or run it directly, then open http://localhost:4000/
+bundle exec jekyll serve --drafts
+
+To publish, just push to main. GitHub Actions builds and deploys it:
 git push origin main
-npm run publish
+
+Deploy status: https://github.com/jpanneton/jpanneton.github.io/actions
+
+
+Windows notes
+-------------
+Git Bash needs "bundle.cmd"; plain "bundle" hands ruby.exe a POSIX path and
+fails with a LoadError. PowerShell and cmd are fine with "bundle".
+
+--detach relies on fork() and is unavailable.

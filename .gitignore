@@ -7,7 +7,6 @@ Thumbs.db
 !.keep
 *.sass-cache
 *.psd
-/node_modules/
 /_site/
 /.jekyll-cache/
 .idea

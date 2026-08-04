@@ -57,17 +57,13 @@ defaults:
     values:
       layout: articles_by_tag
 exclude:
-  - .travis.yml
-  - bin/*
-  - circle.yml
+  - .github/
   - Gemfile
   - Gemfile.lock
-  - package.json
-  - package-lock.json
   - README.md
-  - vendor/
+  - TODO.txt
   - Usage.txt
-  - yarn.lock
+  - vendor/
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
