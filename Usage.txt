@@ -23,3 +23,14 @@ Git Bash needs "bundle.cmd"; plain "bundle" hands ruby.exe a POSIX path and
 fails with a LoadError. PowerShell and cmd are fine with "bundle".
 
 --detach relies on fork() and is unavailable.
+
+Compiling native gems (only needed when gems change, e.g. bundle install
+after editing the Gemfile) requires pointing gcc at the Ruby headers first.
+mkmf emits MSYS-style "/C/..." include paths that the native compiler cannot
+resolve, so set these in the shell beforehand:
+
+  $env:CPATH = "C:/Ruby34-x64/include/ruby-3.4.0;C:/Ruby34-x64/include/ruby-3.4.0/x64-mingw-ucrt"
+  $env:LIBRARY_PATH = "C:/Ruby34-x64/lib"
+
+Set them per-shell, not globally: CPATH applies to every gcc invocation and
+would leak Ruby headers into unrelated C/C++ builds.
