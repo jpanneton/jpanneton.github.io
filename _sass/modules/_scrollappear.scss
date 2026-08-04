@@ -2,6 +2,8 @@
 // ScrollAppear
 // =============================================================================
 
+@use "../settings" as *;
+
 .fouc .scrollappear {
   visibility: hidden;
   opacity: 0;

@@ -1,0 +1,37 @@
+// =============================================================================
+// Theme colors
+//
+// Which shade plays which role. The defaults below are the light theme;
+// dark.scss overrides them through the module configuration.
+// =============================================================================
+
+@use "sass:color";
+@use "palette" as p;
+
+// Font colors
+
+$base-font-color: p.$gray-dark !default;
+$base-accent-color: p.$gray-dark !default;
+
+// Border color
+
+$base-border-color: p.$gray-lightest !default;
+
+// Page specific colors
+
+$body-background: p.$white !default;
+$header-logo-color: p.$black !default;
+$header-link-color: p.$gray-darker !default;
+$header-link-color-hover: p.$gray-darkest !default;
+$article-header-title-color: p.$gray-darkest !default;
+$article-header-description-color: p.$gray-dark !default;
+$article-post-titles-color: p.$gray-darkest !default;
+$article-footer-color: p.$gray-light !default;
+$article-footer-link-color: p.$gray-dark !default;
+$article-footer-link-color-hover: p.$gray-darkest !default;
+$article-paginator-color-hover: p.$gray-darkest !default;
+$audio-player-button-color: p.$gray-darkest !default;
+
+// Derived from the configured values above
+
+$base-accent-highlighted-color: color.adjust($base-accent-color, $lightness: -15%);

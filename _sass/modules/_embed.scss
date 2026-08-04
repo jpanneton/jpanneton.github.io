@@ -2,6 +2,8 @@
 // Embed
 // =============================================================================
 
+@use "../settings" as *;
+
 .embed-responsive {
   position: relative;
   display: block;

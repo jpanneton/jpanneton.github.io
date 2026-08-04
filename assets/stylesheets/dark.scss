@@ -3,73 +3,49 @@
 
 // =============================================================================
 // Dark theme
+//
+// Same palette as light; only which shade plays which role changes.
 // =============================================================================
 
-// Variables
-// =============================================================================
-
-// Shades of gray
-
-$black: #000;
-$gray-darkest: #121111;
-$gray-darker: lighten($gray-darkest, 15);
-$gray-dark: lighten($gray-darkest, 30);
-$gray: lighten($gray-darkest, 45);
-$gray-light: lighten($gray-darkest, 60);
-$gray-lighter: lighten($gray-darkest, 75);
-$gray-lightest: lighten($gray-darkest, 85);
-$white: #fff;
-
-// Font colors
-
-$base-font-color: $gray-lighter;
-$base-accent-color: $gray-lighter;
-$base-accent-highlighted-color: darken($base-accent-color, 15);
-
-// Border color
-
-$base-border-color: $gray-darker;
-
-// Page specific colors
-
-$body-background: $gray-darkest;
-$header-logo-color: $white;
-$header-link-color: $gray-light;
-$header-link-color-hover: $white;
-$article-header-title-color: $gray-lightest;
-$article-header-description-color: $gray;
-$article-post-titles-color: $gray-lightest;
-$article-footer-color: $gray-dark;
-$article-footer-link-color: $gray-light;
-$article-footer-link-color-hover: $white;
-$article-paginator-color-hover: $gray-lightest;
-$audio-player-button-color: $gray-lightest;
-
-// Imports
-// =============================================================================
+@use "palette" as p;
+@use "settings" as * with (
+  $base-font-color: p.$gray-lighter,
+  $base-accent-color: p.$gray-lighter,
+  $base-border-color: p.$gray-darker,
+  $body-background: p.$gray-darkest,
+  $header-logo-color: p.$white,
+  $header-link-color: p.$gray-light,
+  $header-link-color-hover: p.$white,
+  $article-header-title-color: p.$gray-lightest,
+  $article-header-description-color: p.$gray,
+  $article-post-titles-color: p.$gray-lightest,
+  $article-footer-color: p.$gray-dark,
+  $article-footer-link-color: p.$gray-light,
+  $article-footer-link-color-hover: p.$white,
+  $article-paginator-color-hover: p.$gray-lightest,
+  $audio-player-button-color: p.$gray-lightest
+);
 
 // Vendors
 
-@import "vendor/normalize";
+@use "vendor/normalize";
 
 // Settings
 
-@import "variables";
-@import "mixins";
-@import "base";
+@use "base";
 
 // Layouts
 
-@import "layouts/footer";
-@import "layouts/grid";
+@use "layouts/footer";
+@use "layouts/grid";
 
 // Modules
 
-@import "modules/about";
-@import "modules/articles";
-@import "modules/embed";
-@import "modules/header";
-@import "modules/highlights-dark";
-@import "modules/player";
-@import "modules/scrollappear";
-@import "modules/tags";
+@use "modules/about";
+@use "modules/articles";
+@use "modules/embed";
+@use "modules/header";
+@use "modules/highlights-dark";
+@use "modules/player";
+@use "modules/scrollappear";
+@use "modules/tags";

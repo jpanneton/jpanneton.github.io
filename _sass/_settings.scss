@@ -1,0 +1,11 @@
+// =============================================================================
+// Settings
+//
+// Single entry point for everything the partials need, so each one can
+// `@use "../settings" as *` instead of repeating four loads.
+// =============================================================================
+
+@forward "palette";
+@forward "theme";
+@forward "variables";
+@forward "mixins";
