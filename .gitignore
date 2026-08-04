@@ -9,7 +9,4 @@ Thumbs.db
 /node_modules/
 /_site/
 /.jekyll-cache/
-Gemfile.lock
-package-lock.json
-yarn.lock
 .idea
