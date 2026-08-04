@@ -7,9 +7,15 @@ $(document).ready(function() {
   }
 
   // Zooming
+  // customSize caps rasters at their native pixel size, but it makes zooming
+  // scale from naturalWidth, which an SVG with only a viewBox doesn't have.
   new Zooming(
     {customSize: '100%', scaleBase: 0.9, scaleExtra: 0}
-  ).listen('.zooming');
+  ).listen('.zooming-raster');
+
+  new Zooming(
+    {scaleBase: 0.9, scaleExtra: 0}
+  ).listen('.zooming-vector');
 
   // Share buttons
   $('.article-share a').on('click', function() {

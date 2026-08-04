@@ -1,7 +1,10 @@
+{%- comment -%} Vectors and rasters need different Zooming options. {%- endcomment -%}
+{%- assign image_ext = include.path | split: '.' | last | downcase -%}
+{%- if image_ext == 'svg' -%}{%- assign zoom_class = 'zooming zooming-vector' -%}
+{%- else -%}{%- assign zoom_class = 'zooming zooming-raster' -%}
+{%- endif -%}
 <a href="{{ '/assets/images/' | append: include.path-detail | relative_url }}">
-  <img src="{{ '/assets/images/' | append: include.path | relative_url }}" alt="{{ include.alt }}" class="zooming" width="{{ include.width }}"
+  <img src="{{ '/assets/images/' | append: include.path | relative_url }}" alt="{{ include.alt }}" class="{{ zoom_class }}" width="{{ include.width }}"
     data-rjs="{{ '/assets/images/' | append: include.path-detail | relative_url }}"
-    data-zooming-width="{{ assets[include.path-detail].dimensions.width }}"
-    data-zooming-height="{{ assets[include.path-detail].dimensions.height }}"
   />
 </a>
