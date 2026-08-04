@@ -6,6 +6,7 @@ Thumbs.db
 # Project
 !.keep
 *.sass-cache
+*.psd
 /node_modules/
 /_site/
 /.jekyll-cache/
