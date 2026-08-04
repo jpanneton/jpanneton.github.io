@@ -1,6 +1,15 @@
+{%- assign audio_ext = include.path | split: '.' | last | downcase -%}
+{%- case audio_ext -%}
+  {%- when 'mp3' -%}{%- assign audio_type = 'audio/mpeg' -%}
+  {%- when 'wav' -%}{%- assign audio_type = 'audio/wav' -%}
+  {%- when 'ogg' -%}{%- assign audio_type = 'audio/ogg' -%}
+  {%- when 'flac' -%}{%- assign audio_type = 'audio/flac' -%}
+  {%- when 'm4a' -%}{%- assign audio_type = 'audio/mp4' -%}
+  {%- else -%}{%- assign audio_type = nil -%}
+{%- endcase -%}
 <div class="audio-player">
   <audio hidden>
-    <source src="{{ '/assets/images/' | append: include.path | relative_url }}" type="audio/mpeg">
+    <source src="{{ '/assets/audio/' | append: include.path | relative_url }}"{% if audio_type %} type="{{ audio_type }}"{% endif %}>
     Your browser does not support the audio element.
   </audio>
   <div class="audio-player-button">
