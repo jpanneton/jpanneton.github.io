@@ -62,7 +62,6 @@ exclude:
   - Gemfile.lock
   - README.md
   - TODO.txt
-  - Usage.txt
   - vendor/
 plugins:
   - jekyll-paginate

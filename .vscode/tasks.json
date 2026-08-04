@@ -1,7 +1,7 @@
 {
 	"version": "2.0.0",
 	// Windows overrides use "bundle.cmd" so the tasks work under Git Bash too.
-	// See the Windows notes in Usage.txt.
+	// See the Windows notes in README.md.
 	"tasks": [
 		{
 			"label": "Chalk: Serve",
